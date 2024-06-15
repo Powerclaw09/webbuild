@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fancy Website Builder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        #builder-container {
+            display: flex;
+            flex-direction: row;
+            height: 100%;
+        }
+
+        #toolbar {
+            width: 200px;
+            background-color: #f0f0f0;
+            padding: 10px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        #toolbar button {
+            display: block;
+            margin-bottom: 10px;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+
+        #toolbar button:hover {
+            background-color: #0056b3;
+        }
+
+        #editor {
+            flex: 1;
+            padding: 10px;
+        }
+
+        #editor-textarea {
+            width: 100%;
+            height: 100%;
+            border: none;
+            resize: none;
+            font-family: monospace;
+        }
+
+        #preview {
+            flex: 1;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div id="builder-container">
+        <div id="toolbar">
+            <button onclick="addElement('h1')">Add Header</button>
+            <button onclick="addElement('p')">Add Paragraph</button>
+            <button onclick="addElement('img')">Add Image</button>
+        </div>
+        <div id="editor">
+            <textarea id="editor-textarea" oninput="updatePreview()"></textarea>
+        </div>
+        <div id="preview"></div>
+    </div>
+    <script>
+        function addElement(elementType) {
+            let editorTextarea = document.getElementById('editor-textarea');
+            let cursorPosition = editorTextarea.selectionStart;
+            let textBeforeCursor = editorTextarea.value.substring(0, cursorPosition);
+            let textAfterCursor = editorTextarea.value.substring(cursorPosition);
+
+            if (elementType === 'img') {
+                editorTextarea.value = textBeforeCursor + `<img src="https://via.placeholder.com/150" alt="Image">` + textAfterCursor;
+            } else {
+                editorTextarea.value = textBeforeCursor + `<${elementType}>Your ${elementType} text here</${elementType}>` + textAfterCursor;
+            }
+            
+            updatePreview();
+        }
+
+        function updatePreview() {
+            let editorTextarea = document.getElementById('editor-textarea');
+            let preview = document.getElementById('preview');
+            preview.innerHTML = editorTextarea.value;
+        }
+    </script>
+</body>
+</html>
